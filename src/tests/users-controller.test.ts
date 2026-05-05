@@ -1,12 +1,12 @@
 import request from "supertest";
 import { app } from "@/app";
-import { prisma } from "@/database/prisma";
+import prisma from "@/database/prisma";
 
 describe("UsersController", () => {
-  let user_id: string;
+  let user_id: string | undefined; // Definir como opcional
 
   afterAll(async () => {
-    await prisma.user.delete({ where: { id: user_id } });
+    await prisma.user.deleteMany({ where: { id: user_id } });
   });
 
   it("should create a new user successfully", async () => {
@@ -30,8 +30,8 @@ describe("UsersController", () => {
       password: "password123",
     });
 
-    expect(response.status).toBe(400)
-    expect(response.body.message).toBe("user with same email already exists")
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("user with same email already exists");
   });
 
   it("should throw a validation error if email is invalid", async () => {
@@ -39,9 +39,9 @@ describe("UsersController", () => {
       name: "Test User",
       email: "invalid-email",
       password: "password123",
-    })
+    });
 
-    expect(response.status).toBe(400)
-    expect(response.body.message).toBe("validation error")
-  })
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("validation error");
+  });
 });

@@ -1,4 +1,4 @@
-import { prisma } from "@/database/prisma";
+import prisma from "@/database/prisma";
 import { AppError } from "@/utils/AppError";
 import { hash } from "bcrypt";
 import { NextFunction, Request, Response } from "express";
